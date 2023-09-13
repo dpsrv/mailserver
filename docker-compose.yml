@@ -15,11 +15,12 @@ services:
       - "993:993"  # IMAP4 (implicit TLS)
     volumes:
       - ${DPSRV_HOME}/rc/secrets/mailserver/config/:/tmp/docker-mailserver/
-      - ${DPSRV_HOME}/var/mail/:/var/mail/
+      - ${DPSRV_HOME}/srv/mail/:/var/mail/
       - ${DPSRV_HOME}/var/mail-state/:/var/mail-state/
       - ${DPSRV_HOME}/var/log/mail/:/var/log/mail/
+      - ${DPSRV_HOME}/rc/secrets/letsencrypt/:/etc/letsencrypt/:ro
       - /etc/localtime:/etc/localtime:ro
-    restart: always
+    restart: unless-stopped
     stop_grace_period: 1m
     # Uncomment if using `ENABLE_FAIL2BAN=1`:
     # cap_add:
