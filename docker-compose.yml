@@ -15,9 +15,11 @@ services:
       - "993:993"  # IMAP4 (implicit TLS)
     volumes:
       - ${DPSRV_HOME}/rc/secrets/mailserver/config/:/tmp/docker-mailserver/
-      - ${DPSRV_HOME}/srv/mail/:/var/mail/
+      - ${DPSRV_HOME}/rc/secrets/rspamd/local.d/:/etc/rspamd/local.d/
+      - ${DPSRV_HOME}/rc/secrets/rspamd/override.d/:/etc/rspamd/override.d/
       - ${DPSRV_HOME}/var/mail-state/:/var/mail-state/
       - ${DPSRV_HOME}/var/log/mail/:/var/log/mail/
+      - ${DPSRV_HOME}/srv/mail/:/var/mail/
       - ${DPSRV_HOME}/rc/secrets/letsencrypt/:/etc/letsencrypt/:ro
       - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
