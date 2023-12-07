@@ -1,5 +1,5 @@
 services:
-  mailserver:
+  dpsrv-mailserver:
     image: ghcr.io/docker-mailserver/docker-mailserver:latest
     container_name: dpsrv-mailserver
     # Provide the FQDN of your mail server here (Your DNS MX record should point to this value)
