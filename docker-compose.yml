@@ -2,6 +2,7 @@ services:
   dpsrv-mailserver:
     container_name: dpsrv-mailserver-${tag:-latest}
     image: ghcr.io/docker-mailserver/docker-mailserver:latest
+    hostname: $HOSTNAME.dpsrv.me
     # Provide the FQDN of your mail server here (Your DNS MX record should point to this value)
     env_file:
       - ${DPSRV_HOME}/rc/secrets/mailserver/mailserver.env
