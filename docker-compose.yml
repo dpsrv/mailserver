@@ -6,7 +6,7 @@ services:
     # Provide the FQDN of your mail server here (Your DNS MX record should point to this value)
     env_file:
       - ${DPSRV_HOME}/rc/secrets/mailserver/mailserver.env
-      - ${DPSRV_HOME}/rc/secrets/local/${HOSTNAME}/local.env
+      - ${DPSRV_HOME}/rc/secrets/local/${HOSTNAME}/$HOSTNAME.env
     # More information about the mail-server ports:
     # https://docker-mailserver.github.io/docker-mailserver/latest/config/security/understanding-the-ports/
     # To avoid conflicts with yaml base-60 float, DO NOT remove the quotation marks.
