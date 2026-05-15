@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: dpsrv
+  name: mailserver
+  labels:
+    app: mailserver
+spec:
+  type: LoadBalancer
+  selector:
+    app: mailserver
+  ports:
+    - name: smtp
+      port: 25
+      targetPort: 25
+      protocol: TCP
+    - name: smtp-secure
+      port: 465
+      targetPort: 465
+      protocol: TCP
+    - name: smtp-auth
+      port: 587
+      targetPort: 587
+      protocol: TCP
+    - name: imap
+      port: 143
+      targetPort: 143
+      protocol: TCP
+    - name: imap-secure
+      port: 993
+      targetPort: 993
+      protocol: TCP

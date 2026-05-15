@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: dpsrv
+  name: mailserver-env
+data:
+  OVERRIDE_HOSTNAME: "mail.maxf.net"
+  POSTMASTER_ADDRESS: "max@maxf.net"
+  LOG_LEVEL: "info"
+  ENABLE_IMAP: "1"
+  ENABLE_POP3: "0"
+  ENABLE_CLAMAV: "0"
+  ENABLE_RSPAMD: "1"
+  ENABLE_AMAVIS: "0"
+  ENABLE_SPAMASSASSIN: "0"
+  ENABLE_FAIL2BAN: "0"
+  ENABLE_QUOTAS: "1"
+  SSL_TYPE: "manual"
+  SSL_CERT_PATH: "/etc/ssl/mail/fullchain.pem"
+  SSL_KEY_PATH: "/etc/ssl/mail/privkey.pem"
+  PERMIT_DOCKER: "none"
+  ONE_DIR: "1"
+  SPOOF_PROTECTION: "1"
+  ENABLE_SRS: "0"
+  NETWORK_INTERFACE: ""
+  TZ: "America/New_York"

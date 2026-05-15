@@ -1,0 +1,138 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: dpsrv
+  name: mailserver
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: mailserver
+  template:
+    metadata:
+      labels:
+        app: mailserver
+    spec:
+      hostname: mail
+      containers:
+        - name: mailserver
+          image: ghcr.io/docker-mailserver/docker-mailserver:latest
+          imagePullPolicy: Always
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+                - SYS_PTRACE
+          ports:
+            - name: smtp
+              containerPort: 25
+              protocol: TCP
+            - name: smtp-secure
+              containerPort: 465
+              protocol: TCP
+            - name: smtp-auth
+              containerPort: 587
+              protocol: TCP
+            - name: imap
+              containerPort: 143
+              protocol: TCP
+            - name: imap-secure
+              containerPort: 993
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: mailserver-env
+          volumeMounts:
+            - name: mail-data
+              mountPath: /var/mail
+            - name: mail-state
+              mountPath: /var/mail-state
+            - name: mail-logs
+              mountPath: /var/log/mail
+            - name: config-accounts
+              mountPath: /tmp/docker-mailserver/postfix-accounts.cf
+              subPath: postfix-accounts.cf
+            - name: config-virtual
+              mountPath: /tmp/docker-mailserver/postfix-virtual.cf
+              subPath: postfix-virtual.cf
+            - name: dkim-key
+              mountPath: /tmp/docker-mailserver/opendkim/keys/maxf.net/mail.private
+              subPath: mail.private
+            - name: config-relay
+              mountPath: /tmp/docker-mailserver/postfix-relaymap.cf
+              subPath: postfix-relay-hosts.cf
+            - name: config-quotas
+              mountPath: /tmp/docker-mailserver/dovecot-quotas.cf
+              subPath: dovecot-quotas.cf
+            - name: tls-fullchain
+              mountPath: /etc/ssl/mail/fullchain.pem
+              subPath: fullchain.pem
+            - name: tls-privkey
+              mountPath: /etc/ssl/mail/privkey.pem
+              subPath: privkey.pem
+          livenessProbe:
+            exec:
+              command:
+                - /bin/bash
+                - -c
+                - "ss -ltn | grep ':25 ' && ss -ltn | grep ':993 '"
+            initialDelaySeconds: 120
+            periodSeconds: 60
+            timeoutSeconds: 10
+          readinessProbe:
+            exec:
+              command:
+                - /bin/bash
+                - -c
+                - "ss -ltn | grep ':25 ' && ss -ltn | grep ':993 '"
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 10
+      volumes:
+        - name: mail-data
+          persistentVolumeClaim:
+            claimName: mailserver-data
+        - name: mail-state
+          persistentVolumeClaim:
+            claimName: mailserver-state
+        - name: mail-logs
+          persistentVolumeClaim:
+            claimName: mailserver-logs
+        - name: config-accounts
+          secret:
+            secretName: mailserver-conf-postfix-accounts-cf
+            items:
+              - key: postfix-accounts.cf
+                path: postfix-accounts.cf
+        - name: config-virtual
+          secret:
+            secretName: mailserver-conf-postfix-virtual-cf
+            items:
+              - key: postfix-virtual.cf
+                path: postfix-virtual.cf
+        - name: config-quotas
+          secret:
+            secretName: mailserver-conf-dovecot-quotas-cf
+            items:
+              - key: dovecot-quotas.cf
+                path: dovecot-quotas.cf
+        - name: dkim-key
+          secret:
+            secretName: mailserver-conf-maxf-net-dkim-key
+            items:
+              - key: mail.private
+                path: mail.private
+        - name: config-relay
+          secret:
+            secretName: mailserver-conf-postfix-relay-hosts-cf
+            items:
+              - key: postfix-relay-hosts.cf
+                path: postfix-relay-hosts.cf
+        - name: tls-fullchain
+          secret:
+            secretName: letsencrypt-live-domain-fullchain-pem
+        - name: tls-privkey
+          secret:
+            secretName: letsencrypt-live-domain-privkey-pem
