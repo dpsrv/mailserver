@@ -10,35 +10,35 @@ spec:
   - istio-system/default
   tcp:
   - match:
-    - port: 25
+    - port: 8025
     route:
     - destination:
         host: mailserver.dpsrv.svc.cluster.local
         port:
           number: 25
   - match:
-    - port: 465
+    - port: 8465
     route:
     - destination:
         host: mailserver.dpsrv.svc.cluster.local
         port:
           number: 465
   - match:
-    - port: 587
+    - port: 8587
     route:
     - destination:
         host: mailserver.dpsrv.svc.cluster.local
         port:
           number: 587
   - match:
-    - port: 143
+    - port: 8143
     route:
     - destination:
         host: mailserver.dpsrv.svc.cluster.local
         port:
           number: 143
   - match:
-    - port: 993
+    - port: 8993
     route:
     - destination:
         host: mailserver.dpsrv.svc.cluster.local
