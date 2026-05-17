@@ -10,23 +10,23 @@ spec:
   selector:
     app: mailserver
   ports:
-    - name: smtp
+    - name: tcp-smtp
       port: 25
       targetPort: 25
       protocol: TCP
-    - name: smtp-secure
+    - name: tcp-smtps
       port: 465
       targetPort: 465
       protocol: TCP
-    - name: smtp-auth
+    - name: tcp-submission
       port: 587
       targetPort: 587
       protocol: TCP
-    - name: imap
+    - name: tcp-imap
       port: 143
       targetPort: 143
       protocol: TCP
-    - name: imap-secure
+    - name: tcp-imaps
       port: 993
       targetPort: 993
       protocol: TCP
