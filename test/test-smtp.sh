@@ -27,7 +27,7 @@ echo
 echo "--- Testing with swaks (if available) ---"
 if command -v swaks &>/dev/null; then
     echo "Testing port 587 with STARTTLS..."
-    swaks --to "$TO" --from "$FROM" --server "$HOST" --port 587 --tls --quit-after RCPT 2>&1 | grep -E '(->|<-|===)' || true
+    swaks --to "$TO" --from "$FROM" --server "$HOST" --port 587 --tls --helo test.local --quit-after RCPT 2>&1 | grep -E '(->|<-|===)' || true
 else
     echo "swaks not installed. Install with: dnf install swaks"
 fi

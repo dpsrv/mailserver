@@ -18,7 +18,7 @@ test_relay() {
     echo "--- $desc ---"
 
     if command -v swaks &>/dev/null; then
-        result=$(swaks --to "$EXTERNAL_TO" --from "$EXTERNAL_FROM" --server "$HOST" --port "$port" $tls_opt --quit-after RCPT 2>&1)
+        result=$(swaks --to "$EXTERNAL_TO" --from "$EXTERNAL_FROM" --server "$HOST" --port "$port" $tls_opt --helo test.local --quit-after RCPT 2>&1)
         if echo "$result" | grep -qE '(550|554|553|521|relay|denied|rejected)'; then
             echo "PASS: Relay denied"
             echo "$result" | grep -E '(<-|->)' | tail -5
