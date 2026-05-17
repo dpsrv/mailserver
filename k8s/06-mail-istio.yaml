@@ -1,44 +1,4 @@
 apiVersion: networking.istio.io/v1beta1
-kind: Gateway
-metadata:
-  name: mail-gateway
-  namespace: dpsrv
-spec:
-  selector:
-    istio: ingressgateway
-  servers:
-  - port:
-      number: 25
-      name: smtp
-      protocol: TCP
-    hosts:
-    - "*"
-  - port:
-      number: 465
-      name: smtps
-      protocol: TCP
-    hosts:
-    - "*"
-  - port:
-      number: 587
-      name: submission
-      protocol: TCP
-    hosts:
-    - "*"
-  - port:
-      number: 143
-      name: imap
-      protocol: TCP
-    hosts:
-    - "*"
-  - port:
-      number: 993
-      name: imaps
-      protocol: TCP
-    hosts:
-    - "*"
----
-apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: mailserver
@@ -47,7 +7,7 @@ spec:
   hosts:
   - "*"
   gateways:
-  - mail-gateway
+  - istio-system/default
   tcp:
   - match:
     - port: 25
