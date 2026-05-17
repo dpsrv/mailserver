@@ -6,7 +6,7 @@ metadata:
   labels:
     app: mailserver
 spec:
-  type: LoadBalancer
+  clusterIP: None
   selector:
     app: mailserver
   ports:
