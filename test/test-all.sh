@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 HOST=${1:?Usage: $0 <hostname> [from@domain] [to@domain]}
 FROM=${2:-test@example.com}

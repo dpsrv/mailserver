@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 HOST=${1:?Usage: $0 <hostname>}
 
