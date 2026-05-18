@@ -10,7 +10,7 @@ Then update `postfix-accounts.cf`
 kubectl -n dpsrv exec -it deploy/mailserver -- apt-get update && apt-get install -y rsync
 
 ### Then rsync from old server
-kubectl -n dpsrv exec -it deploy/mailserver -- rsync -avz --delete \
+kubectl -n dpsrv exec -it deploy/mailserver -- rsync -avz \
   --exclude='dovecot*' \
   --exclude='.dovecot*' \
   -e ssh \
