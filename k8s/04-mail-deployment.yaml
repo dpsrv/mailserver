@@ -15,6 +15,8 @@ spec:
       labels:
         app: mailserver
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: cnt-use1-2
       hostname: mail
       containers:
         - name: mailserver
