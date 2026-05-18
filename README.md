@@ -23,10 +23,10 @@ if [ -z "$user" ]; then
     exit 1
 fi      
 
-kubectl -n dpsrv exec -it deploy/mailserver -- rsync -avz \
+rsync -avz \
   --exclude='dovecot*' \
   --exclude='.dovecot*' \
-  -e ssh \
+  -e "ssh -o PubkeyAcceptedAlgorithms=+ssh-rsa -o HostkeyAlgorithms=+ssh-rsa" \
     $src /var/mail/$domain/$user/
 ```
 
