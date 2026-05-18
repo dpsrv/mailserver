@@ -18,7 +18,7 @@ data:
   SSL_TYPE: "manual"
   SSL_CERT_PATH: "/etc/ssl/mail/fullchain.pem"
   SSL_KEY_PATH: "/etc/ssl/mail/privkey.pem"
-  PERMIT_DOCKER: "none"
+  PERMIT_DOCKER: "network"
   ONE_DIR: "1"
   SPOOF_PROTECTION: "1"
   ENABLE_SRS: "0"
