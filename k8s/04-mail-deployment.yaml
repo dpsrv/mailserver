@@ -66,6 +66,9 @@ spec:
             - name: config-quotas
               mountPath: /tmp/docker-mailserver/dovecot-quotas.cf
               subPath: dovecot-quotas.cf
+            - name: config-postfix-master
+              mountPath: /tmp/docker-mailserver/postfix-master.cf
+              subPath: postfix-master.cf
             - name: tls-fullchain
               mountPath: /etc/ssl/mail/fullchain.pem
               subPath: fullchain.pem
@@ -130,6 +133,12 @@ spec:
             items:
               - key: postfix-relay-hosts.cf
                 path: postfix-relay-hosts.cf
+        - name: config-postfix-master
+          configMap:
+            name: mailserver-postfix-master
+            items:
+              - key: postfix-master.cf
+                path: postfix-master.cf
         - name: tls-fullchain
           secret:
             secretName: letsencrypt-live-domain-fullchain-pem
