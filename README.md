@@ -27,7 +27,7 @@ rsync -avz \
   --exclude='dovecot*' \
   --exclude='.dovecot*' \
   -e "ssh -o PubkeyAcceptedAlgorithms=+ssh-rsa -o HostkeyAlgorithms=+ssh-rsa" \
-    $src /var/mail/$domain/$user/
+    $src/ /var/mail/$domain/$user/
 ```
 
 ### Fix ownership
