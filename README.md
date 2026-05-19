@@ -36,4 +36,5 @@ kubectl -n dpsrv exec -it deploy/mailserver -- chown -R 5000:5000 /var/mail/
 ### Resync
 kubectl -n dpsrv exec -it deploy/mailserver -- doveadm force-resync -A '*'
 
-
+### Test
+curl -v --insecure "imaps://$host:993" --user '$user@$domain:$domain' -X "LIST \"\" \"*\""
