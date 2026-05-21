@@ -79,6 +79,8 @@ spec:
             - name: tls-privkey
               mountPath: /etc/ssl/mail/privkey.pem
               subPath: privkey.pem
+            - name: bucket
+              mountPath: /mnt/bucket
           livenessProbe:
             exec:
               command:
@@ -149,3 +151,7 @@ spec:
         - name: tls-privkey
           secret:
             secretName: letsencrypt-live-domain-privkey-pem
+        - name: bucket
+          hostPath:
+            path: /mnt/bucket/mailserver
+            type: DirectoryOrCreate
