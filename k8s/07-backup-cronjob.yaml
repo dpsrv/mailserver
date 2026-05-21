@@ -1,0 +1,42 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  namespace: dpsrv
+  name: mailserver-backup
+spec:
+  schedule: "0 */4 * * *"  # Every 4 hours
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          nodeSelector:
+            kubernetes.io/hostname: cnt-use1-2
+          restartPolicy: OnFailure
+          containers:
+            - name: backup
+              image: alpine:latest
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  apk add --no-cache rsync
+                  echo "Starting backup at $(date)"
+                  rsync -av --delete /var/mail/ /mnt/bucket/mail/
+                  echo "Backup completed at $(date)"
+              volumeMounts:
+                - name: mail-data
+                  mountPath: /var/mail
+                  readOnly: true
+                - name: bucket
+                  mountPath: /mnt/bucket
+          volumes:
+            - name: mail-data
+              persistentVolumeClaim:
+                claimName: mailserver-data
+            - name: bucket
+              hostPath:
+                path: /mnt/bucket/mailserver
+                type: DirectoryOrCreate
