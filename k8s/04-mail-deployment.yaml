@@ -73,6 +73,9 @@ spec:
             - name: config-postfix-master
               mountPath: /tmp/docker-mailserver/postfix-master.cf
               subPath: postfix-master.cf
+            - name: user-patches
+              mountPath: /tmp/docker-mailserver/user-patches.sh
+              subPath: user-patches.sh
             - name: tls-fullchain
               mountPath: /etc/ssl/mail/fullchain.pem
               subPath: fullchain.pem
@@ -145,6 +148,13 @@ spec:
             items:
               - key: postfix-master.cf
                 path: postfix-master.cf
+        - name: user-patches
+          configMap:
+            name: mailserver-user-patches
+            defaultMode: 0755
+            items:
+              - key: user-patches.sh
+                path: user-patches.sh
         - name: tls-fullchain
           secret:
             secretName: letsencrypt-live-domain-fullchain-pem

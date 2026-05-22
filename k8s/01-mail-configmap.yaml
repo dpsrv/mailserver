@@ -4,7 +4,7 @@ metadata:
   namespace: dpsrv
   name: mailserver-env
 data:
-  OVERRIDE_HOSTNAME: "maxf.net"
+  OVERRIDE_HOSTNAME: "smtp.maxf.net"
   POSTMASTER_ADDRESS: "max@maxf.net"
   LOG_LEVEL: "info"
   ENABLE_IMAP: "1"
@@ -35,3 +35,16 @@ data:
   postfix-master.cf: |
     submissions/inet/smtpd_client_restrictions=permit_mynetworks,permit_sasl_authenticated,reject
     submissions/inet/smtpd_relay_restrictions=permit_mynetworks,permit_sasl_authenticated,reject
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: dpsrv
+  name: mailserver-user-patches
+data:
+  user-patches.sh: |
+    #!/bin/bash
+    # Ensure vmailbox is refreshed on startup
+    sleep 5
+    postmap /etc/postfix/vmailbox 2>/dev/null || true
+    postfix reload 2>/dev/null || true
