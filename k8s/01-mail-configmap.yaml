@@ -4,7 +4,7 @@ metadata:
   namespace: dpsrv
   name: mailserver-env
 data:
-  OVERRIDE_HOSTNAME: "mail.maxf.net"
+  OVERRIDE_HOSTNAME: "maxf.net"
   POSTMASTER_ADDRESS: "max@maxf.net"
   LOG_LEVEL: "info"
   ENABLE_IMAP: "1"
