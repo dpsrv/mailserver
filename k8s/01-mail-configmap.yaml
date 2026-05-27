@@ -25,6 +25,8 @@ data:
   NETWORK_INTERFACE: ""
   TZ: "America/New_York"
   POSTFIX_mynetworks: "127.0.0.1/32 [::1]/128"
+  POSTFIX_soft_bounce: "no"
+  POSTFIX_notify_classes: "resource, software"
 ---
 apiVersion: v1
 kind: ConfigMap
